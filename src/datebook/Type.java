@@ -1,8 +1,7 @@
 package datebook;
 
-public class TypeOfTask {
 
-    protected enum Type {
+    public enum Type{
         WORK("Рабочая"),
         PERSONAL("Личная");
 
@@ -14,7 +13,6 @@ public class TypeOfTask {
             }
             return null;
         }
-
         private final String setType;
 
         Type(String setType) {
@@ -33,5 +31,3 @@ public class TypeOfTask {
     }
 
 
-
-}

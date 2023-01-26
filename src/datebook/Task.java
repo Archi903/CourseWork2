@@ -6,31 +6,32 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public abstract class Task extends TypeOfTask {
+
+public abstract class Task {
 
     private String title;
     private int id;
     private LocalDateTime dateTime;
     private String description;
     private static int idGenerator = 1;
-    private final Type setType;
+    private final Type type;
 
-    public Task(String title, String description, Type setType, LocalDateTime dateTime) throws IncorrectArgumentException {
-        this.title = title;
+    public Task(String title, String description, Type type, LocalDateTime dateTime) {
+        if (title.isBlank() || title.isEmpty()) {
+            throw new IncorrectArgumentException("Строка пустая");
+        } else {
+            this.title = title;
+        }
         this.dateTime = dateTime;
-        this.description = description;
-        this.setType = setType;
+        if (description.isBlank() || description.isEmpty()) {
+            throw new IncorrectArgumentException("Строка пустая");
+        } else {
+            this.description = description;
+        }
+        this.type = type;
         this.id = idGenerator++;
     }
 
-
-    public int getIdGenerator() {
-        return idGenerator;
-    }
-
-    public void setIdGenerator(int idGenerator) {
-        Task.idGenerator = idGenerator;
-    }
 
     public String getTitle() {
         return title;
@@ -57,7 +58,6 @@ public abstract class Task extends TypeOfTask {
     }
 
 
-
     public String getDescription() {
         return description;
     }
@@ -72,7 +72,7 @@ public abstract class Task extends TypeOfTask {
         return "Task: " + " id: " + id +
                 ", Название - " + title +
                 ", описание - " + description +
-                ", дата: " + dateTime + ", тип задачи - " + setType;
+                ", дата: " + dateTime + ", тип задачи - " + type;
     }
 
 
@@ -83,12 +83,12 @@ public abstract class Task extends TypeOfTask {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id && Objects.equals(title, task.title) && Objects.equals(dateTime, task.dateTime) && Objects.equals(description, task.description) && setType == task.setType;
+        return id == task.id && Objects.equals(title, task.title) && Objects.equals(dateTime, task.dateTime) && Objects.equals(description, task.description) && type == task.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, id, dateTime, description, setType);
+        return Objects.hash(title, id, dateTime, description, type);
     }
 }
 

@@ -2,7 +2,7 @@ package exception;
 
 import datebook.Task;
 
-public class TaskNotFoundException extends Exception {
+public class TaskNotFoundException extends IncorrectArgumentException {
 private final Task id;
 
     public TaskNotFoundException(String message, Task id) {
