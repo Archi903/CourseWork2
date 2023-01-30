@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class TaskService {
-    private static final Map<Integer, Task> TASK_MAP = new HashMap<>();
+    public static final Map<Integer, Task> TASK_MAP = new HashMap<>();
+    public static Collection<Task> REMOVED_TASK = new ArrayList<>();
 
     public static void add(int a) throws IncorrectArgumentException {
         boolean exit = false;
@@ -61,6 +62,7 @@ public class TaskService {
     public static void removeTask(int a) {
             try {
                 if (TASK_MAP.get(a) != null) {
+                    REMOVED_TASK.add(TASK_MAP.get(a));
                     TASK_MAP.remove(a);
                         System.out.println("Задачи удалены");
                 } else if (TASK_MAP.get(a) == null) {
@@ -72,8 +74,6 @@ public class TaskService {
             }
         }
 
-
-
     public static void getAllByDate(int year, int month, int day) {
         for (Map.Entry<Integer, Task> taskMap : TASK_MAP.entrySet()) {
             if (taskMap.getValue().appearsln(LocalDate.of(year, month, day))) {
@@ -81,5 +81,25 @@ public class TaskService {
                 System.out.println("Конец просмотра задач");
             }
         }
+    }
+    public static void getRemovedTask() {
+        System.out.println("Список удаленных задач");
+
+        if (REMOVED_TASK.size() != 0) {
+            for (Task s : REMOVED_TASK) {
+                System.out.println(s.toString());
+            }
+        } else {
+            System.out.println("Нет удаленных задач");
+        }
+    }
+    public static void updateDescription(int id, String description){
+            TASK_MAP.get(id).setDescription(description);
+    }
+    public static void updateTitle(int id, String title){
+        TASK_MAP.get(id).setDescription(title);
+    }
+    public static void getAllByDate(){
+
     }
 }
