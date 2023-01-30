@@ -2,7 +2,7 @@ package exception;
 
 import datebook.Task;
 
-public class IncorrectArgumentException extends IllegalArgumentException {
+public class IncorrectArgumentException extends Exception {
 
 
     public IncorrectArgumentException(String message) {

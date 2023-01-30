@@ -1,5 +1,6 @@
 package datebook;
 
+import exception.IncorrectArgumentException;
 import exception.TaskNotFoundException;
 import interval_task.*;
 
@@ -10,13 +11,11 @@ import java.util.*;
 public class TaskService {
     private static final Map<Integer, Task> TASK_MAP = new HashMap<>();
 
-    public static void add() {
-        Scanner key = new Scanner(System.in);
-        key.useDelimiter("\n");
-        System.out.println("Задайте интервал задачи (введите цифру): \n 0 - разовая задача \n 1 - задача на каждый день \n 2 - задача на каждую неделю \n 3 - задача на каждый месяц \n 4 - задача на каждый год");
-        int a = key.nextInt();
+    public static void add(int a) throws IncorrectArgumentException {
         boolean exit = false;
         while (!exit) {
+            Scanner key = new Scanner(System.in);
+            key.useDelimiter("\n");
             System.out.println("Укажите тип задачи (Рабочая или личная): ");
             String type = key.next();
             System.out.println("Название задачи: ");
@@ -40,8 +39,8 @@ public class TaskService {
                 Task task = new YearTask(title, description, Type.findByWrite(type), now);
                 TASK_MAP.put(task.getId(), task);
             } else {
-                System.out.println("Команда не распознана, выберите число");
-                add();
+                System.out.println("Команда не распознана.");
+                break;
             }
             System.out.println("Желаете добавить еще задачу такого же типа?");
             String s = key.next();
@@ -57,101 +56,30 @@ public class TaskService {
                 break;
             }
         }
-        reChoose();
     }
 
-    public static void removeTask() {
-        Scanner key = new Scanner(System.in);
-        key.useDelimiter("\n");
-        System.out.println("Желаете удалить задачу?");
-        String a = key.next();
-        boolean exit = a.equalsIgnoreCase("Нет");
-        while (!exit) {
-            System.out.println("Введите ID задачи: ");
-            int i = key.nextInt();
+    public static void removeTask(int a) {
             try {
-                if (TASK_MAP.get(i) != null) {
-                    TASK_MAP.remove(i);
-                    System.out.println("Удалить еще задачу?");
-                    String s = key.next();
-                    exit = s.equalsIgnoreCase("Нет");
-                    boolean exit2 = s.equalsIgnoreCase("Да");
-                    if (exit) {
+                if (TASK_MAP.get(a) != null) {
+                    TASK_MAP.remove(a);
                         System.out.println("Задачи удалены");
-                        break;
-                    } else if (exit2) {
-                        System.out.println("Повторяем задачу");
-                    } else {
-                        System.out.println("Команда не распознана");
-                        removeTask();
-                    }
-                } else if (TASK_MAP.get(i) == null) {
+                } else if (TASK_MAP.get(a) == null) {
                     System.out.println("Такого ID не существует");
-                    throw new TaskNotFoundException("Такого ID не существует", TASK_MAP.get(i));
+                    throw new TaskNotFoundException("Такого ID не существует", TASK_MAP.get(a));
                 }
             } catch (TaskNotFoundException e) {
                 System.out.println("Необходимо вводить существующий ID");
-                break;
             }
         }
-    }
 
-    public static void reChoose() {
-        Scanner key = new Scanner(System.in);
-        key.useDelimiter("\n");
-        System.out.println("Желаете добавить задачу другого типа?");
-        String answerUser = key.next();
-        boolean exit1 = answerUser.equalsIgnoreCase("нет");
-        boolean exit2 = answerUser.equalsIgnoreCase("да");
-        if (exit2) {
-            add();
-        } else if (exit1) {
-            System.out.println("Конец задачи");
-        } else {
-            System.out.println("Команда не распознана, введите да или нет");
-            reChoose();
-        }
-        removeTask();
-    }
 
-    public static void getAllByDate() {
-        Scanner key = new Scanner(System.in);
-        key.useDelimiter("\n");
-        System.out.println("Желаете получить задачи на день?");
-        String a = key.next();
-        boolean exit = a.equalsIgnoreCase("Нет");
-        while (!exit) {
-            System.out.println("Введите дату в формате: \nгод: \nмесяц: \nдень:");
-            int year = key.nextInt();
-            int month = key.nextInt();
-            int day = key.nextInt();
-            for (Map.Entry<Integer, Task> taskMap : TASK_MAP.entrySet()) {
-                if (taskMap.getValue().appearsln(LocalDate.of(year, month, day))) {
-                    System.out.println(taskMap.getValue());
-                }
-            }
-            System.out.println("Желаете получить задачи на другой день?");
-            String answerUser = key.next();
-            exit = answerUser.equalsIgnoreCase("Нет");
-            boolean exit2 = answerUser.equalsIgnoreCase("Да");
-            if (exit) {
-                System.out.println("Конец просмотра задач");
-            } else if (exit2) {
-                System.out.println("Запускаем просмотр");
-            } else {
-                System.out.println("Команда не распознана");
-                break;
-            }
-        }
-    }
 
-    public static void getAllList() {
+    public static void getAllByDate(int year, int month, int day) {
         for (Map.Entry<Integer, Task> taskMap : TASK_MAP.entrySet()) {
-            System.out.println(taskMap.getValue().appearsln(LocalDate.now()));
-            String value = String.valueOf(taskMap);
-            System.out.println(value);
+            if (taskMap.getValue().appearsln(LocalDate.of(year, month, day))) {
+                System.out.println(taskMap.getValue());
+                System.out.println("Конец просмотра задач");
+            }
         }
     }
-
-
 }

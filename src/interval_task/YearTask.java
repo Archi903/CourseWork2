@@ -2,12 +2,13 @@ package interval_task;
 
 import datebook.Task;
 import datebook.Type;
+import exception.IncorrectArgumentException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class YearTask extends Task {
-    public YearTask(String title, String description, Type type, LocalDateTime dateTime) {
+    public YearTask(String title, String description, Type type, LocalDateTime dateTime) throws IncorrectArgumentException {
         super(title, description, type, dateTime);
     }
 

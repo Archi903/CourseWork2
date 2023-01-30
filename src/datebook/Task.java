@@ -16,7 +16,7 @@ public abstract class Task {
     private static int idGenerator = 1;
     private final Type type;
 
-    public Task(String title, String description, Type type, LocalDateTime dateTime) {
+    public Task(String title, String description, Type type, LocalDateTime dateTime) throws IncorrectArgumentException {
         if (title.isBlank() || title.isEmpty()) {
             throw new IncorrectArgumentException("Строка пустая");
         } else {
