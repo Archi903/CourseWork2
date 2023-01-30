@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class TaskService {
-    public static final Map<Integer, Task> TASK_MAP = new HashMap<>();
-    public static Collection<Task> REMOVED_TASK = new ArrayList<>();
+    private static final Map<Integer, Task> TASK_MAP = new HashMap<>();
+    private static final Collection<Task> REMOVED_TASK = new ArrayList<>();
 
     public static void add(int a) throws IncorrectArgumentException {
         boolean exit = false;

@@ -13,7 +13,6 @@ public class Main {
         Scanner key = new Scanner(System.in);
         key.useDelimiter("\n");
         start();
-        System.out.println(TASK_MAP);
     }
 
     public static void start() throws IncorrectArgumentException {
